@@ -1,3 +1,4 @@
+const Class = require('../models/Class');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
@@ -94,6 +95,24 @@ const userController = {
         try {
             const users = await User.find();
             res.status(200).json(users);
+        } catch (error) {
+            res.status(500).json({ msg: error.message });
+        }
+    },
+
+    getClassByUser: async (req, res) => {
+        try {
+            const userId = req.session.userId;
+            if(!userId) {
+                return res.status(401).json({ msg: 'Unauthorized' });
+            }
+
+            const classes = await Class.find({participants: userId})
+            // .populate({
+            //     path: 'participants',
+            //     select: 'username'
+            // });
+            res.status(200).json(classes);
         } catch (error) {
             res.status(500).json({ msg: error.message });
         }

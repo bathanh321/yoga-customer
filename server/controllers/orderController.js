@@ -40,6 +40,21 @@ const orderController = {
             console.error('Error during checkout:', error);
             res.status(500).json({ message: 'Error during checkout', error: error.message });
         }
+    },
+    
+    getAllOrders: async (req, res) => {
+        try {
+            const orders = await Order.find({})
+                .populate({
+                    path: 'userId',
+                    select: 'username'
+                });
+
+            res.status(200).json(orders);
+        } catch (error) {
+            console.error('Error getting all orders:', error);
+            res.status(500).json({ message: 'Error getting all orders', error: error.message });
+        }
     }
 }
 

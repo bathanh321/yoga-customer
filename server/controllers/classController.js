@@ -42,7 +42,11 @@ const classController = {
 
     getClassById: async (req, res) => {
         try {
-            const classInstance = await Class.findById(req.params.classId);
+            const classInstance = await Class.findById(req.params.classId)
+                .populate({
+                    path: 'participants',
+                    select: 'username'
+                });
             if (!classInstance) {
                 return res.status(404).json({ message: 'Class not found' });
             }

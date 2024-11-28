@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, Image } from 'react-native';
 import { getAllCourses, getUser } from '../../api/apiRequest';
 import Navbar from '../components/navbar';
 import { styles } from './style';
@@ -39,7 +39,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Navbar username={username} navigation={navigation}/>
-      
+      <Image source={require('../../assets/slider1.jpg')} style={styles.banner} />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Welcome, {username}</Text>
         {courses.map((course) => (
@@ -56,64 +56,5 @@ const Home = ({ navigation }) => {
     </View>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   navbar: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     padding: 16,
-//     backgroundColor: '#4338ca',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ddd',
-//   },
-//   logoContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//   },
-//   logo: {
-//     width: 40,
-//     height: 40,
-//     marginRight: 8,
-//   },
-//   appName: {
-//     fontSize: 18,
-//   },
-//   userButton: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//   },
-//   content: {
-//     padding: 16,
-//   },
-//   title: {
-//     fontSize: 24,
-//     marginBottom: 16,
-//     textAlign: 'center',
-//   },
-//   card: {
-//     backgroundColor: '#fff',
-//     padding: 16,
-//     marginBottom: 16,
-//     borderRadius: 8,
-//     shadowColor: '#000',
-//     shadowOpacity: 0.1,
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowRadius: 8,
-//     elevation: 2,
-//   },
-//   cardTitle: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 8,
-//   },
-//   cardText: {
-//     fontSize: 16,
-//     marginBottom: 4,
-//   },
-// });
 
 export default Home;

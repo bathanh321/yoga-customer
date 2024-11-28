@@ -1,4 +1,5 @@
 const Cart = require('../models/cart');
+const Class = require('../models/Class');
 
 const CartController = {
     getCart: async (req, res) => {
@@ -46,6 +47,10 @@ const CartController = {
             if (!cart) {
                 cart = new Cart({ userId, items: [{ classId }] });
             } else {
+                const itemExists = cart.items.some(item => item.classId.toString() === classId);
+                if (itemExists) {
+                    return res.status(400).json({ message: 'Class is already in the cart' });
+                }
                 cart.items.push({ classId });
             }
 
@@ -73,7 +78,16 @@ const CartController = {
             cart.items = cart.items.filter(item => item._id.toString() !== itemId);
 
             await cart.save();
-            res.status(200).json(cart);
+            const updatedCart = await Cart.findOne({ userId })
+                .populate({
+                    path: 'items.classId',
+                    populate: {
+                        path: 'yogaCourseId',
+                        select: 'pricePerClass'
+                    }
+                });
+
+            res.status(200).json(updatedCart);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

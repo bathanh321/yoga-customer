@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity, Modal, Image } from 'react-native';
 import { checkout, deleteItemInCart, getCart, getUser } from '../../api/apiRequest';
 import Navbar from '../components/navbar';
 import { styles } from './style';
@@ -37,7 +37,10 @@ const Cart = ({ navigation }) => {
   }, []);
 
   const calculateTotalPrice = (items) => {
-    const total = items.reduce((sum, item) => sum + item.classId.yogaCourseId.pricePerClass, 0);
+    const total = items.reduce((sum, item) => {
+      const price = item.classId.yogaCourseId?.pricePerClass || 0;
+      return sum + price;
+    }, 0);
     setTotalPrice(total);
   };
 
@@ -45,6 +48,7 @@ const Cart = ({ navigation }) => {
     try {
       const data = await deleteItemInCart(itemId);
       setCarts(data.items);
+      console.log('data.items:', data.items);
       calculateTotalPrice(data.items);
     } catch (error) {
       console.error('Error deleting item in cart:', error);
@@ -80,30 +84,41 @@ const Cart = ({ navigation }) => {
       <Navbar username={username} navigation={navigation} />
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Your Cart</Text>
-        {carts.map((item) => (
-          <View key={item._id} style={styles.card}>
-            <Text style={styles.cardText}>Class ID: {item.classId._id}</Text>
-            <Text style={styles.cardText}>Teacher: {item.classId.teacherName}</Text>
-            <Text style={styles.cardText}>Description: {item.classId.description}</Text>
-            <Text style={styles.cardText}>Date: {new Date(item.classId.date).toLocaleDateString()}</Text>
-            <Text style={styles.cardText}>Duration: {item.classId.duration}</Text>
-            <Text style={styles.cardText}>Capacity: {item.classId.capacity}</Text>
-            <Text style={styles.cardText}>Price: ${item.classId.yogaCourseId?.pricePerClass || 0}</Text>
-            <Text style={styles.cardText}>Order Date: {new Date(item.orderAt).toLocaleDateString()}</Text>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={() => openModal('delete', item._id)}>
-                <Text style={styles.buttonText}>Delete</Text>
+        {carts.length === 0 ? (
+          <>
+          <Image source={require('../../assets/empty-cart.png')} style={styles.banner} />
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.checkoutButtonText}>Buy something</Text>
+              </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <Text style={styles.title}>Your Cart</Text>
+            {carts.map((item) => (
+              <View key={item._id} style={styles.card}>
+                <Text style={styles.cardText}>Class ID: {item.classId._id}</Text>
+                <Text style={styles.cardText}>Teacher: {item.classId.teacherName}</Text>
+                <Text style={styles.cardText}>Description: {item.classId.description}</Text>
+                <Text style={styles.cardText}>Date: {new Date(item.classId.date).toLocaleDateString()}</Text>
+                <Text style={styles.cardText}>Duration: {item.classId.duration}</Text>
+                <Text style={styles.cardText}>Capacity: {item.classId.capacity}</Text>
+                <Text style={styles.cardText}>Price: ${item.classId.yogaCourseId?.pricePerClass || 0}</Text>
+                <Text style={styles.cardText}>Order Date: {new Date(item.orderAt).toLocaleDateString()}</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity style={styles.button} onPress={() => openModal('delete', item._id)}>
+                    <Text style={styles.buttonText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+            <View style={styles.totalContainer}>
+              <Text style={styles.totalText}>Total Price: ${totalPrice.toFixed(2)}</Text>
+              <TouchableOpacity style={styles.checkoutButton} onPress={() => openModal('checkout')}>
+                <Text style={styles.checkoutButtonText}>Checkout</Text>
               </TouchableOpacity>
             </View>
-          </View>
-        ))}
-        <View style={styles.totalContainer}>
-          <Text style={styles.totalText}>Total Price: ${totalPrice.toFixed(2)}</Text>
-          <TouchableOpacity style={styles.checkoutButton} onPress={() => openModal('checkout')}>
-            <Text style={styles.checkoutButtonText}>Checkout</Text>
-          </TouchableOpacity>
-        </View>
+          </>
+        )}
       </ScrollView>
 
       <Modal

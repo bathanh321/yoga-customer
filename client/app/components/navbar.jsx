@@ -36,6 +36,11 @@ const Navbar = ({ username, navigation }) => {
     navigation.navigate('Cart');
   };
 
+  const handleNavigateToMyClasses = () => {
+    setDropdownVisible(false);
+    navigation.navigate('MyClasses');
+  };
+
     const getInitials = (name) => {
         return name ? name.charAt(0).toUpperCase() : '';
     };
@@ -58,6 +63,9 @@ const Navbar = ({ username, navigation }) => {
         <View style={styles.dropdown}>
           <TouchableOpacity style={styles.dropdownItem} onPress={handleNavigateToCart}>
             <Text style={styles.dropdownText}> Cart</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.dropdownItem} onPress={handleNavigateToMyClasses}>
+            <Text style={styles.dropdownText}> My classes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.dropdownItem} onPress={handleLogout}>
             <Text style={styles.dropdownText}>Logout</Text>

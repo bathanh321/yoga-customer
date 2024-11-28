@@ -132,7 +132,7 @@ export const getAllCourses = async () => {
 
 export const getCourseById = async (id) => {
   try {
-    const response = await fetch(`${apiURL}/course/course/${id}`, {
+    const response = await fetch(`${apiURL}/course/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -172,27 +172,26 @@ export const getClassTypeById = async (id) => {
   }
 };
 
-export const searchCourses = async (searchData) => {
+export const getClassByUser = async () => {
   try {
-    const response = await fetch(`${apiURL}/course/search`, {
-      method: 'POST',
+    const response = await fetch(`${apiURL}/auth/getClassByUser`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(searchData),
-    });
+    })
 
     if (!response.ok) {
-      throw new Error('Failed to search courses');
+      throw new Error('Failed to get class by user');
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error searching courses:', error);
+    console.error('Error getting class by user:', error);
     throw error;
   }
-};
+}
 
 export const getAllClassesInCourse = async (courseId) => {
   try {

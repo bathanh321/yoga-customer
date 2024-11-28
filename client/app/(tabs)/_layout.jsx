@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from './(main)/home';
 import Cart from './Cart';
 import Classes from './Classes';
+import ClassInfo from './ClassInfo';
+import MyClasses from './MyClasses';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +18,8 @@ const TabsLayout = () => {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Cart" component={Cart} />
         <Tab.Screen name="Class" component={Classes} />
+        <Tab.Screen name="ClassInfo" component={ClassInfo} />
+        <Tab.Screen name="MyClasses" component={MyClasses} />
       </Tab.Navigator>
     </NavigationContainer>
   )

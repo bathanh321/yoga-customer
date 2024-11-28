@@ -5,6 +5,8 @@ import SignUp from './app/(auth)/signup';
 import Home from './app/(tabs)/Home';
 import Cart from './app/(tabs)/Cart';
 import Classes from './app/(tabs)/Classes';
+import ClassInfo from './app/(tabs)/ClassInfo';
+import MyClasses from './app/(tabs)/MyClasses';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +19,8 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Classes" component={Classes} />
+        <Stack.Screen name="ClassInfo" component={ClassInfo} />
+        <Stack.Screen name="MyClasses" component={MyClasses} />
       </Stack.Navigator>
     </NavigationContainer>
   );
