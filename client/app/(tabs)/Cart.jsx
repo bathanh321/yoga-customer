@@ -48,7 +48,6 @@ const Cart = ({ navigation }) => {
     try {
       const data = await deleteItemInCart(itemId);
       setCarts(data.items);
-      console.log('data.items:', data.items);
       calculateTotalPrice(data.items);
     } catch (error) {
       console.error('Error deleting item in cart:', error);
@@ -96,7 +95,6 @@ const Cart = ({ navigation }) => {
             <Text style={styles.title}>Your Cart</Text>
             {carts.map((item) => (
               <View key={item._id} style={styles.card}>
-                <Text style={styles.cardText}>Class ID: {item.classId._id}</Text>
                 <Text style={styles.cardText}>Teacher: {item.classId.teacherName}</Text>
                 <Text style={styles.cardText}>Description: {item.classId.description}</Text>
                 <Text style={styles.cardText}>Date: {new Date(item.classId.date).toLocaleDateString()}</Text>

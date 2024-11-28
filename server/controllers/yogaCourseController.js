@@ -34,16 +34,13 @@ const yogaCourseController = {
 
     updateCourse: async (req, res) => {
         try {
-            // Find the existing course to preserve the classes
             const existingCourse = await YogaCourse.findById(req.params.id);
             if (!existingCourse) {
                 return res.status(404).json({ message: 'Yoga course not found' });
             }
     
-            // Preserve the classes field
             const updatedData = { ...req.body, classes: existingCourse.classes };
     
-            // Update the course with the preserved classes
             const yogaCourse = await YogaCourse.findByIdAndUpdate(req.params.id, updatedData, { new: true, runValidators: true });
             res.status(200).json(yogaCourse);
         } catch (error) {

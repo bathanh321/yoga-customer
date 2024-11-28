@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, Image } from 'react-native';
+import { View, Text, ScrollView, Button, Image } from 'react-native';
 import { getAllCourses, getUser } from '../../api/apiRequest';
 import Navbar from '../components/navbar';
 import { styles } from './style';
@@ -49,7 +49,7 @@ const Home = ({ navigation }) => {
             <Text style={styles.cardText}>Price per Class: ${course.pricePerClass}</Text>
             <Text style={styles.cardText}>Class Type: {course.classType}</Text>
             <Text style={styles.cardText}>Location: {course.location}</Text>
-            <Button title="View all Class" onPress={() => handleCoursePress(course._id)} />
+            <Button title="View all Classes" onPress={() => handleCoursePress(course._id)} />
           </View>
         ))}
       </ScrollView>

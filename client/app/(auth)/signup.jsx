@@ -12,7 +12,6 @@ const Signup = ({ navigation }) => {
   const handleSignup = async () => {
     try {
       const data = await register(username, email, password);
-      console.log('Signup successful:', data);
       navigation.navigate('Login');
     } catch (error) {
       setError('Failed to register. Please check your details.');
